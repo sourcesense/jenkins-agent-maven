@@ -57,6 +57,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
     curl \
     git \
     jq \
+    maven \
     xmlstarlet \
     uidmap \
     libseccomp-dev \
