@@ -13,6 +13,7 @@ RUN apk add --no-cache \
 RUN go get github.com/go-bindata/go-bindata/go-bindata
 WORKDIR /
 RUN git clone https://github.com/EcoMind/img.git -b img-load
+WORKDIR /img
 RUN make static && mv img /usr/bin/img
 
 FROM alpine:3.12.4 as curl
