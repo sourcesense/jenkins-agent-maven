@@ -91,5 +91,5 @@ COPY --from=fuse-builder --chown=1000:1000 /build/fuse-overlayfs/fuse-overlayfs 
 
 USER 1000
 
-RUN ./dep-bootstrap.sh 0.4.3 install
+RUN ./dep-bootstrap.sh 0.5.1 install
 
