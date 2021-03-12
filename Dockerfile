@@ -95,9 +95,10 @@ RUN export IMG_DISABLE_EMBEDDED_RUNC=1 \
 
 ENV JENKINS_USER=jenkins
 
-COPY --from=img --chown=1000:1000 /usr/bin/img /usr/bin/docker
+COPY --from=img --chown=1000:1000 /usr/bin/img /usr/bin/img
 COPY --from=yq-downloader --chown=1000:1000 /usr/local/bin/yq /usr/local/bin/yq
 COPY --from=fuse-builder --chown=1000:1000 /build/fuse-overlayfs/fuse-overlayfs /usr/bin/fuse-overlayfs
+RUN ["ln", "-sf", "/usr/bin/img", "/usr/bin/docker"]
 
 USER 1000
 
