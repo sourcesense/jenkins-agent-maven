@@ -29,6 +29,17 @@ WORKDIR /
 RUN apk add curl
 
 
+FROM downloader AS trivy-downloader
+
+ARG OS=${TARGETOS:-Linux}
+ARG ARCH=${TARGETARCH:-64bit}
+ARG TRIVY_VERSION="0.19.2"
+RUN wget "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_${OS}-${ARCH}.deb" -O /tmp/trivy.deb
+
+
+FROM ubuntu AS trivy-installer
+COPY --from=trivy-downloader --chown=1000:1000 /tmp/trivy.deb /tmp/trivy.deb
+RUN apt-get install /tmp/trivy.deb
 
 FROM downloader as yq-downloader
 
@@ -104,6 +115,7 @@ RUN export IMG_DISABLE_EMBEDDED_RUNC=1 \
 
 ENV JENKINS_USER=jenkins
 
+COPY --from=trivy-installer --chown=1000:1000 /usr/local/bin/trivy /usr/local/bin/trivy
 COPY --from=img --chown=1000:1000 /usr/bin/img /usr/bin/img
 COPY --from=yq-downloader --chown=1000:1000 /usr/local/bin/yq /usr/local/bin/yq
 COPY --from=fuse-builder --chown=1000:1000 /build/fuse-overlayfs/fuse-overlayfs /usr/bin/fuse-overlayfs
