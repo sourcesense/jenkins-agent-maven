@@ -1,6 +1,6 @@
 FROM alpine:3.15.0 as alpine
 
-FROM ubuntu:groovy-20210713 as ubuntu
+FROM ubuntu:focal-20211006 as ubuntu
 
 FROM golang:1.13-alpine AS gobuilder
 
