@@ -1,4 +1,4 @@
-FROM alpine:3.14.0 as alpine
+FROM alpine:3.15.0 as alpine
 
 FROM ubuntu:groovy-20210713 as ubuntu
 
