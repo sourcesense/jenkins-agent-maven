@@ -33,7 +33,7 @@ FROM downloader AS trivy-downloader
 
 ARG OS=${TARGETOS:-Linux}
 ARG ARCH=${TARGETARCH:-64bit}
-ARG TRIVY_VERSION="0.19.2"
+ARG TRIVY_VERSION="0.21.2"
 RUN wget "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_${OS}-${ARCH}.deb" -O /tmp/trivy.deb
 
 
