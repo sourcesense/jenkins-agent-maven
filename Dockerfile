@@ -1,8 +1,8 @@
-FROM alpine:3.15.0 as alpine
+FROM alpine:3.15.4 as alpine
 
-FROM ubuntu:focal-20211006 as ubuntu
+FROM ubuntu:focal-20220426 as ubuntu
 
-FROM golang:1.13-alpine AS gobuilder
+FROM golang:1.18.2-alpine3.15 AS gobuilder
 
 RUN apk add --no-cache \
 	bash \
@@ -33,7 +33,7 @@ FROM downloader AS trivy-downloader
 
 ARG OS=${TARGETOS:-Linux}
 ARG ARCH=${TARGETARCH:-64bit}
-ARG TRIVY_VERSION="0.21.2"
+ARG TRIVY_VERSION="0.27.1"
 RUN wget "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_${OS}-${ARCH}.deb" -O /tmp/trivy.deb
 
 
@@ -45,7 +45,7 @@ FROM downloader as yq-downloader
 
 ARG OS=${TARGETOS:-linux}
 ARG ARCH=${TARGETARCH:-amd64}
-ARG YQ_VERSION="v4.16.1"
+ARG YQ_VERSION="v4.25.1"
 ARG YQ_BINARY="yq_${OS}_$ARCH"
 RUN wget "https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
     chmod +x /usr/local/bin/yq
@@ -60,7 +60,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
-RUN git clone https://github.com/containers/fuse-overlayfs.git -b v1.4.0
+RUN git clone https://github.com/containers/fuse-overlayfs.git -b v1.8.2
 
 FROM ubuntu as fuse-builder
 WORKDIR /build
