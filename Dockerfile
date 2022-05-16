@@ -2,7 +2,7 @@ FROM alpine:3.15.4 as alpine
 
 FROM ubuntu:focal-20220426 as ubuntu
 
-FROM golang:1.18.2-alpine3.15 AS gobuilder
+FROM golang:1.13-alpine AS gobuilder
 
 RUN apk add --no-cache \
 	bash \
