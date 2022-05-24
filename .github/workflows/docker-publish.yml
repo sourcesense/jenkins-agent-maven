@@ -51,8 +51,7 @@ jobs:
           image-ref: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-          format: "template"
-          template: "@/contrib/sarif.tpl"
+          format: "sarif"
           output: "trivy-results.sarif"
 
       - name: Upload Trivy scan results to GitHub Security tab
@@ -67,8 +66,7 @@ jobs:
           exit-code: "1"
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
-          format: "template"
-          template: "@/contrib/sarif.tpl"
+          format: "sarif"
           output: "trivy-results.sarif"
 
       - name: Log into registry

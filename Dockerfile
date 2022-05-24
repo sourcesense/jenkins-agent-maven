@@ -18,7 +18,7 @@ FROM gobuilder AS img
 
 RUN go get github.com/go-bindata/go-bindata/go-bindata
 WORKDIR /
-RUN git clone https://github.com/EcoMind/img.git -b v0.6.0
+RUN git clone https://github.com/EcoMind/img.git -b v0.7.0
 WORKDIR /img
 RUN make static && mv img /usr/bin/img
 
@@ -39,7 +39,7 @@ RUN wget "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSI
 
 FROM ubuntu AS trivy-installer
 COPY --from=trivy-downloader --chown=1000:1000 /tmp/trivy.deb /tmp/trivy.deb
-RUN apt-get install /tmp/trivy.deb
+RUN apt-get install -y /tmp/trivy.deb
 
 FROM downloader as yq-downloader
 
