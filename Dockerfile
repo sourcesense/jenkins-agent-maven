@@ -1,6 +1,6 @@
 FROM alpine:3.15.4 as alpine
 
-FROM ubuntu:focal-20220426 as ubuntu
+FROM ubuntu:focal-20221019 as ubuntu
 
 FROM golang:1.13-alpine AS gobuilder
 
@@ -92,6 +92,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
     uidmap \
     libseccomp-dev \
     fuse3 \
+    openjdk-17-jdk \
     && \
     rm -rf /var/lib/apt/lists/*
 
