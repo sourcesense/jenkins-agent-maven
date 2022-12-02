@@ -1,6 +1,6 @@
 FROM alpine:3.15.4 as alpine
 
-FROM ubuntu:focal-20221019 as ubuntu
+FROM ubuntu:focal-20220426 as ubuntu
 
 FROM golang:1.13-alpine AS gobuilder
 
