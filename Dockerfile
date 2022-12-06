@@ -1,4 +1,4 @@
-FROM alpine:3.15.4 as alpine
+FROM alpine:3.17.0 as alpine
 
 FROM ubuntu:focal-20221019 as ubuntu
 
@@ -18,7 +18,7 @@ FROM gobuilder AS img
 
 RUN go get github.com/go-bindata/go-bindata/go-bindata
 WORKDIR /
-RUN git clone https://github.com/EcoMind/img.git -b v0.7.0
+RUN git clone https://github.com/EcoMind/img.git -b v0.8.0
 WORKDIR /img
 RUN make static && mv img /usr/bin/img
 
@@ -33,7 +33,7 @@ FROM downloader AS trivy-downloader
 
 ARG OS=${TARGETOS:-Linux}
 ARG ARCH=${TARGETARCH:-64bit}
-ARG TRIVY_VERSION="0.28.0"
+ARG TRIVY_VERSION="0.35.0"
 RUN wget "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_${OS}-${ARCH}.deb" -O /tmp/trivy.deb
 
 
@@ -45,9 +45,12 @@ FROM downloader as yq-downloader
 
 ARG OS=${TARGETOS:-linux}
 ARG ARCH=${TARGETARCH:-amd64}
-ARG YQ_VERSION="v4.25.1"
+#ARG YQ_VERSION="v4.30.5"
+ARG YQ_VERSION="v4.30.5em"
 ARG YQ_BINARY="yq_${OS}_$ARCH"
-RUN wget "https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
+#RUN wget "https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
+#    chmod +x /usr/local/bin/yq
+RUN wget "https://github.com/brunobottazzini/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
     chmod +x /usr/local/bin/yq
 
 
