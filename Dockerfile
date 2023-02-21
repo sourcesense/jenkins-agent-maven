@@ -1,4 +1,4 @@
-FROM alpine:3.17.0 as alpine
+FROM alpine:3.17.2 as alpine
 
 FROM ubuntu:focal-20221019 as ubuntu
 
@@ -33,7 +33,7 @@ FROM downloader AS trivy-downloader
 
 ARG OS=${TARGETOS:-Linux}
 ARG ARCH=${TARGETARCH:-64bit}
-ARG TRIVY_VERSION="0.35.0"
+ARG TRIVY_VERSION="0.37.3"
 RUN wget "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_${OS}-${ARCH}.deb" -O /tmp/trivy.deb
 
 
@@ -45,13 +45,13 @@ FROM downloader as yq-downloader
 
 ARG OS=${TARGETOS:-linux}
 ARG ARCH=${TARGETARCH:-amd64}
-#ARG YQ_VERSION="v4.30.5"
-ARG YQ_VERSION="v4.30.5em"
+ARG YQ_VERSION="v4.31.1"
+# ARG YQ_VERSION="v4.30.5em"
 ARG YQ_BINARY="yq_${OS}_$ARCH"
-#RUN wget "https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
-#    chmod +x /usr/local/bin/yq
-RUN wget "https://github.com/brunobottazzini/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
-    chmod +x /usr/local/bin/yq
+RUN wget "https://github.com/mikefarah/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
+   chmod +x /usr/local/bin/yq
+# RUN wget "https://github.com/brunobottazzini/yq/releases/download/$YQ_VERSION/$YQ_BINARY" -O /usr/local/bin/yq && \
+#     chmod +x /usr/local/bin/yq
 
 
 FROM ubuntu as fuse-downloader
@@ -63,7 +63,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
-RUN git clone https://github.com/containers/fuse-overlayfs.git -b v1.8.2
+RUN git clone https://github.com/containers/fuse-overlayfs.git -b v1.10
 
 FROM ubuntu as fuse-builder
 WORKDIR /build
@@ -102,9 +102,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
 # Downloading and installing Maven
 RUN apt-get remove maven -y
 
-ARG MAVEN_VERSION=3.8.6
+ARG MAVEN_VERSION=3.8.7
 ARG USER_HOME_DIR="/root"
-ARG SHA=f790857f3b1f90ae8d16281f902c689e4f136ebe584aba45e4b1fa66c80cba826d3e0e52fdd04ed44b4c66f6d3fe3584a057c26dfcac544a60b301e6d0f91c26
+ARG SHA=21c2be0a180a326353e8f6d12289f74bc7cd53080305f05358936f3a1b6dd4d91203f4cc799e81761cf5c53c5bbe9dcc13bdb27ec8f57ecf21b2f9ceec3c8d27
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
@@ -152,5 +152,5 @@ RUN ["ln", "-sf", "/usr/bin/img", "/usr/bin/docker"]
 
 USER 1000
 
-RUN ./dep-bootstrap.sh 0.5.1 install
+RUN ./dep-bootstrap.sh 0.5.2 install
 
