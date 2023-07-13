@@ -1,4 +1,4 @@
-name: CI
+name: CI-17
 
 on:
   push:
@@ -15,7 +15,8 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: jenkins-agent-maven-17
+  IMAGE_NAME: jenkins-agent-maven
+  JDK_VERSION: 17
 
 jobs:
   # Push image to GitHub Packages.
@@ -36,7 +37,7 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
 
       - name: Build image
-        run: docker build . --file Dockerfile17 --tag $IMAGE_NAME:${{ github.sha }}
+        run: docker build . --file Dockerfile$JDK_VERSION --tag $IMAGE_NAME-$JDK_VERSION:${{ github.sha }}
 
       - name: Run Trivy vulnerability scanner and dump results
         uses: aquasecurity/trivy-action@master
@@ -75,7 +76,7 @@ jobs:
 
       - name: Push image
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository }}
+          IMAGE_ID=ghcr.io/${{ github.repository }}-$JDK_VERSION
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
