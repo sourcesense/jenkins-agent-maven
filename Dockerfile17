@@ -42,7 +42,8 @@ RUN chmod +x ./dep-bootstrap.sh
 
 ENV USER=1000
 USER root
-RUN yum install -y git jq shellcheck xmlstarlet java-17-openjdk-devel && chown 1000 -R /app
+RUN dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm && \
+    yum install -y git jq shellcheck xmlstarlet java-17-openjdk-devel ffmpeg && chown 1000 -R /app
 
 ENV JENKINS_USER=1000
 
