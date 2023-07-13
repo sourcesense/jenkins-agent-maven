@@ -42,7 +42,7 @@ jobs:
       - name: Run Trivy vulnerability scanner and dump results
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          image-ref: "${{ env.IMAGE_NAME }}-${{ env.JDK_VERSION }}:${{ github.sha }}"
           format: "table"
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
@@ -50,7 +50,7 @@ jobs:
       - name: Run Trivy vulnerability scanner (for sarif)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          image-ref: "${{ env.IMAGE_NAME }}-${{ env.JDK_VERSION }}:${{ github.sha }}"
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
           format: "sarif"
@@ -64,7 +64,7 @@ jobs:
       - name: Run Trivy vulnerability scanner (fail build if any)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          image-ref: "${{ env.IMAGE_NAME }}-${{ env.JDK_VERSION }}:${{ github.sha }}"
           exit-code: "1"
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
